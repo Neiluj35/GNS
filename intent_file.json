@@ -1,0 +1,124 @@
+{
+  "network": {
+    "routers": {
+      "R1": {
+        "as": 65001,
+        "loopback": "2001:DB8:1::1/128",
+        "interfaces": {
+          "GigabitEthernet2/0": {"peer": "R3", "ip": "2001:DB8:1:13::1/64"},
+          "GigabitEthernet1/0": {"peer": "R5", "ip": "2001:DB8:1:15::1/64"}
+        },
+        "igp": "RIPng",
+        "ibgp_neighbors": {
+          "2001:DB8:1::2": {"as": 65001, "type": "iBGP"},
+          "2001:DB8:1::5": {"as": 65001, "type": "iBGP"}
+        },
+        "ebgp_neighbors": {
+          "2001:DB8:1:13::3": {"as": 65002, "type": "eBGP"}
+        }
+      },
+      "R2": {
+        "as": 65001,
+        "loopback": "2001:DB8:1::2/128",
+        "interfaces": {
+          "GigabitEthernet1/0": {"peer": "R4", "ip": "2001:DB8:1:24::2/64"},
+          "GigabitEthernet2/0": {"peer": "R5", "ip": "2001:DB8:1:25::2/64"},
+          "FastEthernet0/0": {"peer": "R7", "ip": "2001:DB8:1:10::2/64"}
+        },
+        "igp": "RIPng",
+        "ibgp_neighbors": {
+          "2001:DB8:1::1": {"as": 65001, "type": "iBGP"},
+          "2001:DB8:1::5": {"as": 65001, "type": "iBGP"}
+        },
+        "ebgp_neighbors": {
+          "2001:DB8:1:24::4": {"as": 65002, "type": "eBGP"},
+          "2001:DB8:1:10::7": {"as": 65003, "type": "eBGP"}
+        } 
+      },
+      "R3": {
+        "as": 65002,
+        "loopback": "2001:DB8:2::3/128",
+        "interfaces": {
+          "GigabitEthernet2/0": {"peer": "R1", "ip": "2001:DB8:1:13::3/64"},
+          "GigabitEthernet1/0": {"peer": "R6", "ip": "2001:DB8:2:36::3/64"}
+        },
+        "igp": "OSPFv3",
+        "ibgp_neighbors": {
+          "2001:DB8:2::4": {"as": 65002, "type": "iBGP"},
+          "2001:DB8:2::6": {"as": 65002, "type": "iBGP"}
+        },
+        "ebgp_neighbors": {
+          "2001:DB8:1:13::1": {"as": 65001, "type": "eBGP"}
+        }
+      },
+      "R4": {
+        "as": 65002,
+        "loopback": "2001:DB8:2::4/128",
+        "interfaces": {
+          "GigabitEthernet1/0": {"peer": "R2", "ip": "2001:DB8:1:24::4/64"},
+          "GigabitEthernet2/0": {"peer": "R6", "ip": "2001:DB8:2:46::4/64"}
+        },
+        "igp": "OSPFv3",
+        "ibgp_neighbors": {
+          "2001:DB8:2::3": {"as": 65002, "type": "iBGP"},
+          "2001:DB8:2::6": {"as": 65002, "type": "iBGP"}
+        },
+        "ebgp_neighbors": {
+          "2001:DB8:1:24::2": {"as": 65001, "type": "eBGP"}
+        }
+      },
+      "R5": {
+        "as": 65001,
+        "loopback": "2001:DB8:1::5/128",
+        "interfaces": {
+          "GigabitEthernet1/0": {"peer": "R1", "ip": "2001:DB8:1:15::5/64"},
+          "GigabitEthernet2/0": {"peer": "R2", "ip": "2001:DB8:1:25::5/64"}
+        },
+        "igp": "RIPng",
+        "ibgp_neighbors": {
+          "2001:DB8:1::1": {"as": 65001, "type": "iBGP"},
+          "2001:DB8:1::2": {"as": 65001, "type": "iBGP"}
+        }
+      },
+      "R6": {
+        "as": 65002,
+        "loopback": "2001:DB8:2::6/128",
+        "interfaces": {
+          "GigabitEthernet1/0": {"peer": "R3", "ip": "2001:DB8:2:36::6/64"},
+          "GigabitEthernet2/0": {"peer": "R4", "ip": "2001:DB8:2:46::6/64"}
+        },
+        "igp": "OSPFv3",
+        "ibgp_neighbors": {
+          "2001:DB8:2::3": {"as": 65002, "type": "iBGP"},
+          "2001:DB8:2::4": {"as": 65002, "type": "iBGP"}
+        }
+      },
+      "R7": {
+        "as": 65003,
+        "loopback": "2001:DB8:3::7/128",
+        "interfaces": {
+          "GigabitEthernet1/0": {"peer": "R8", "ip": "2001:DB8:3:7::7/64"},
+          "FastEthernet0/0": {"peer": "R2", "ip": "2001:DB8:1:10::7/64"}
+        },
+        "igp": "OSPFv3",
+        "ibgp_neighbors": {
+          "2001:DB8:3::8": {"as": 65003, "type": "iBGP"}
+        },
+        "ebgp_neighbors": {
+          "2001:DB8:1:10::2": {"as": 65001, "type": "eBGP"}
+        }
+      },
+      "R8": {
+        "as": 65003,
+        "loopback": "2001:DB8:3::8/128",
+        "interfaces": {
+          "GigabitEthernet1/0": {"peer": "R7", "ip": "2001:DB8:3:7::8/64"}
+        },
+        "igp": "OSPFv3",
+        "ibgp_neighbors": {
+          "2001:DB8:3::7": {"as": 65003, "type": "iBGP"}
+        }
+      }
+    }
+  }
+}

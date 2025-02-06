@@ -1,0 +1,32 @@
+sur R2 
+router bgp 65001
+ neighbor 2001:DB8:1:10::7 send-community
+
+ip community-list standard TAG_PRIORITY_ROUTES permit 65003:100
+route-map PRIORITIZE_TAGGED_ROUTES permit 10
+ match community TAG_PRIORITY_ROUTES
+ set local-preference 200
+
+route-map PRIORITIZE_TAGGED_ROUTES permit 20
+ set local-preference 100
+ 
+router bgp 65001
+ neighbor 2001:DB8:1:10::7 remote-as 65003
+ neighbor 2001:DB8:1:10::7 route-map PRIORITIZE_TAGGED_ROUTES in
+
+
+sur R7w
+
+Ajouter une communauté aux routes internes avant de les envoyer à R2
+route-map TAG_LOCAL_ROUTES permit 10
+ match ipv6 address prefix-list LOCAL_ROUTES
+ set community 65003:100
+
+ipv6 prefix-list LOCAL_ROUTES seq 5 permit 2001:DB8:3::/48
+
+router bgp 65003
+ neighbor 2001:DB8:1:10::2 remote-as 65001
+ neighbor 2001:DB8:1:10::2 route-map TAG_LOCAL_ROUTES out
+router bgp 65003
+  neighbor 2001:DB8:1:10::2 send-community
+
